@@ -81,11 +81,13 @@ int main(int argc,const char *argv[]){
         }*/
     }
     else if(command == "write"){
-        snprintf(buf,sizeof(buf),"%s\r\n%s","write",argv[3]);
+        snprintf(buf,sizeof(buf),"%s\r\n%s\r\n","write",argv[3]);
         //strncpy(buf,"write\r\n",1024);
         send(client, buf, strlen(buf),0);
+        cout <<"send:"<< buf << ":send" << endl;
         ssize_t n = recv(client,buf,1024,0);
-        cout <<"reply:"<< buf << ":reply" << endl;
+        string cont(buf,n);
+        cout <<"reply:"<< cont << ":reply" << endl;
         cout << n << endl;
         //while(n>0){
         //    cout << buf;
