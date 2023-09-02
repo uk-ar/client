@@ -34,7 +34,6 @@ void print_usage(fs::path path){
 int main(int argc,const char *argv[]){
     vector<string> args(argv, argv + argc);
     string command = args[2];
-    //cout << args[0] << endl;
     if((args.size() < 3) ||
        (command == "write" && args.size()  != 4) ||
        (command == "insert" && args.size() != 5)){
@@ -71,7 +70,7 @@ int main(int argc,const char *argv[]){
         cerr << "Socket creation failed: " << strerror(errno) << endl;
         return EXIT_FAILURE;
     }
-    char buf[1024];
+    char buf[BUFF_SIZE];
 
     if(command == "read"){
         snprintf(buf,sizeof(buf),"read \r\n");
@@ -88,7 +87,7 @@ int main(int argc,const char *argv[]){
         snprintf(buf,sizeof(buf),"%s\n%20s\r\n%s","insert",argv[4],argv[3]);
     }
     send(client, buf, strlen(buf),0);
-    ssize_t n = recv(client,buf,1024,0);
+    ssize_t n = recv(client,buf,BUFF_SIZE,0);
     string cont(buf,n);
     cout << cont << endl;
     // TODO: support large data
